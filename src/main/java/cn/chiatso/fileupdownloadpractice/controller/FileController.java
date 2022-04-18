@@ -4,6 +4,7 @@ import cn.chiatso.fileupdownloadpractice.entity.User;
 import cn.chiatso.fileupdownloadpractice.entity.UserFile;
 import cn.chiatso.fileupdownloadpractice.service.UserFileService;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +12,11 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -81,5 +86,32 @@ public class FileController {
                     .setSize(size).setType(type).setPath("/files/" + dateFormat).setUserId(user.getId());
     userFileService.save(userFile);
     return "redirect:/file/findAll";
+  }
+
+
+  //文件下载
+  @RequestMapping("/download")
+  public void download(String openStyle, String id, HttpServletResponse response) throws Exception{
+    UserFile userFile = userFileService.findById(id);
+    //获取打开方式
+    openStyle = openStyle==null ? "attachment" : "inline";
+    //根据文件信息的文件名字和存储路径获取输入流
+    String realPath = ResourceUtils.getURL("classpath:").getPath() + "/static" + userFile.getPath();
+    //更新下载次数
+    if(openStyle.equalsIgnoreCase("attachment")) {
+      userFile.setDownloadCount(userFile.getDownloadCount() + 1);
+    }
+    userFileService.update(userFile);
+    //获取文件输入流
+    FileInputStream in = new FileInputStream(new File(realPath, userFile.getNewFileName()));
+    //附件下载
+    response.setHeader("content-disposition", openStyle + ";fileName=" + URLEncoder.encode(userFile.getOldFileName(), "UTF-8"));
+    //获取响应输出流
+    ServletOutputStream out = response.getOutputStream();
+    //拷贝
+    IOUtils.copy(in, out);
+    //关闭
+    IOUtils.closeQuietly(in);
+    IOUtils.closeQuietly(out);
   }
 }

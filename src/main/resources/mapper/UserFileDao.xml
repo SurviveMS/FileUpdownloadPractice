@@ -20,4 +20,21 @@
                 #{path}, #{size}, #{type}, #{isImg}, #{downloadCount},
                 #{uploadTime}, #{userId})
     </insert>
+
+    <!--findById-->
+    <select id="findById" resultType="UserFile">
+        select id,
+               oldFileName,
+               newFileName,
+               ext,
+               path, size, type, isImg, downloadCount,
+            uploadTime, userId
+        from t_files
+        where id = #{id}
+    </select>
+
+    <!--update-->
+    <update id="update">
+        update t_files set downloadCount = #{downloadCount} where id = #{id}
+    </update>
 </mapper>

@@ -15,4 +15,8 @@ public interface UserFileDao {
   List<UserFile> findByUserId(String id);
 
   void save(UserFile userFile);
+
+  UserFile findById(String id);
+
+  void update(UserFile userFile);
 }

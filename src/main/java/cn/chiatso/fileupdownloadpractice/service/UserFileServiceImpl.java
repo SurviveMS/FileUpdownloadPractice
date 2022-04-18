@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,8 +37,18 @@ public class UserFileServiceImpl implements UserFileService {
     }else{
       userFile.setIsImg("否");
     }
-    //userFile.setUploadTime();
-    //userFile.setDownloadCount();
+    userFile.setUploadTime(new Date());
+    userFile.setDownloadCount(0);
     userFileDao.save(userFile);
+  }
+
+  @Override
+  public UserFile findById(String id) {
+    return userFileDao.findById(id);
+  }
+
+  @Override
+  public void update(UserFile userFile) {
+    userFileDao.update(userFile);
   }
 }
