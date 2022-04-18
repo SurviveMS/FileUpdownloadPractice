@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>User File List</title>
 </head>
-<body>
+<body style="text-align: center; padding-bottom: 30px">
 
-<h2>欢迎：xxxx</h2>
+<h2>欢迎：<span th:if="${session.user!=null}" th:text="${session.user.username}"></span></h2>
 
 <h3>File List</h3>
 <table style="border: 1px solid black">

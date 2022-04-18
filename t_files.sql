@@ -11,7 +11,7 @@
  Target Server Version : 50737
  File Encoding         : 65001
 
- Date: 17/04/2022 23:57:22
+ Date: 18/04/2022 11:32:59
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,10 @@ CREATE TABLE `t_files`  (
   `isImg` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `downloadCount` int(11) NULL DEFAULT NULL,
   `uploadTime` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  `userId` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `userfk`(`userId`) USING BTREE,
+  CONSTRAINT `userfk` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
