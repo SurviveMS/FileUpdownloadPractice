@@ -31,7 +31,11 @@
         <td><span th:text="${file.path}"></span></td>
         <td><span th:text="${file.size}"></span></td>
         <td><span th:text="${file.type}"></span></td>
-        <td><span th:text="${file.isImg}"></span></td>
+        <td><span th:if="${file.isImg}!='是'" th:text="${file.isImg}"/>
+            <img th:if="${file.isImg}=='是'"
+                 th:src="${#servletContext.contextPath}+${file.path}+'/'+${file.newFileName}"
+                 style="width: 100px; height: 40px"/>
+        </td>
         <td><span th:text="${file.downloadCount}"></span></td>
         <td><span th:text="${file.uploadTime}"></span></td>
         <td>
@@ -43,7 +47,7 @@
 </table>
 <hr>
 <h3>Upload File</h3>
-<form action="" method="post">
+<form th:action="@{/file/upload}" method="post" enctype="multipart/form-data">
     <input type="file" name="file">
     <input type="submit" value="Upload">
 </form>

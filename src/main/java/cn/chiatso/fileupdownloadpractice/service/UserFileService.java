@@ -11,5 +11,7 @@ import java.util.List;
  */
 public interface UserFileService {
 
+  void save(UserFile userFile);
+
   List<UserFile> findByUserId(String id);
 }

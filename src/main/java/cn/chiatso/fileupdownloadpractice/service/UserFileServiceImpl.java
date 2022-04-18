@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author: chiatso
@@ -25,5 +26,18 @@ public class UserFileServiceImpl implements UserFileService {
   @Transactional(propagation = Propagation.SUPPORTS)
   public List<UserFile> findByUserId(String id) {
     return userFileDao.findByUserId(id);
+  }
+
+  @Override
+  public void save(UserFile userFile) {
+    //判断是否是图片，判断类型是否包含image/xxx
+    if(userFile.getType().contains("image")){
+      userFile.setIsImg("是");
+    }else{
+      userFile.setIsImg("否");
+    }
+    //userFile.setUploadTime();
+    //userFile.setDownloadCount();
+    userFileDao.save(userFile);
   }
 }

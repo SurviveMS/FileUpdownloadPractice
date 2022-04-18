@@ -13,4 +13,6 @@ public interface UserFileDao {
 
   //根据用户id获取用户文件列表
   List<UserFile> findByUserId(String id);
+
+  void save(UserFile userFile);
 }

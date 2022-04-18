@@ -27,7 +27,7 @@ public class UserController {
     User userDb = userService.login(user);
     if(userDb != null) {
       session.setAttribute("user", userDb);
-      return "showAll";
+      return "redirect:/file/findAll";
     }else {
       return "redirect:/login.html";
     }
