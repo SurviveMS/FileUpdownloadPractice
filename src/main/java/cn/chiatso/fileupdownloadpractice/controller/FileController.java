@@ -114,4 +114,20 @@ public class FileController {
     IOUtils.closeQuietly(in);
     IOUtils.closeQuietly(out);
   }
+
+  //删除文件信息
+  @RequestMapping("/delete")
+  public String delete(String id) throws Exception{
+    //根据id查询信息
+    UserFile userFile = userFileService.findById(id);
+    String realPath = ResourceUtils.getURL("classpath:").getPath() + "/static" + userFile.getPath();
+    File file = new File(realPath, userFile.getNewFileName());
+    if(file.exists()) {
+      file.delete(); //立即删除
+    }
+    //删除数据库中文件记录
+    userFileService.delete(userFile);
+    return "redirect:/file/findAll";
+  }
+
 }

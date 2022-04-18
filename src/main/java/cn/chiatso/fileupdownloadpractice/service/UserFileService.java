@@ -18,4 +18,6 @@ public interface UserFileService {
   UserFile findById(String id);
 
   void update(UserFile userFile);
+
+  void delete(UserFile userFile);
 }

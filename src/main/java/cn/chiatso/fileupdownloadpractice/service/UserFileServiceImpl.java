@@ -51,4 +51,9 @@ public class UserFileServiceImpl implements UserFileService {
   public void update(UserFile userFile) {
     userFileDao.update(userFile);
   }
+
+  @Override
+  public void delete(UserFile userFile) {
+    userFileDao.delete(userFile);
+  }
 }

@@ -41,7 +41,7 @@
         <td>
             <a th:href="@{/file/download(id=${file.id})}">下载</a>
             <a th:href="@{/file/download(id=${file.id}, openStyle='inline')}">在线打开</a>
-            <a href="#">删除</a>
+            <a th:href="@{/file/delete(id=${file.id})}">删除</a>
         </td>
     </tr>
 </table>

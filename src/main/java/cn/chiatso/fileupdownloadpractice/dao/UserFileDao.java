@@ -19,4 +19,6 @@ public interface UserFileDao {
   UserFile findById(String id);
 
   void update(UserFile userFile);
+
+  void delete(UserFile userFile);
 }
