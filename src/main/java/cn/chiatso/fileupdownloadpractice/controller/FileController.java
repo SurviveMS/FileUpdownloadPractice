@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -42,6 +43,15 @@ public class FileController {
     List<UserFile> files = userFileService.findByUserId(user.getId());
     model.addAttribute("files", files);
     return "showAll";
+  }
+
+  //返回当前用户的所有文件列表--json
+  @RequestMapping("/findAllJson")
+  @ResponseBody
+  public List<UserFile> findAllJson(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    List<UserFile> userFiles = userFileService.findByUserId(user.getId());
+    return userFiles;
   }
 
   //上传文件，所有文件以files为顶级目录

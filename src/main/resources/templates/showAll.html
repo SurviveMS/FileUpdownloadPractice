@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>User File List</title>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script>
+        $(function() {
+          setInterval(()=>{
+            $.get("[[@{/file/findAllJson}]]", function(res) {
+              $.each(res, function(index, file) {
+                $("#"+file.id).text(file.downloadCount);
+              })
+            })
+          }, 3000)
+        })
+    </script>
 </head>
 <body style="text-align: center; padding-bottom: 30px">
 
@@ -36,8 +48,8 @@
                  th:src="${#servletContext.contextPath}+${file.path}+'/'+${file.newFileName}"
                  style="width: 100px; height: 40px"/>
         </td>
-        <td><span th:text="${file.downloadCount}"></span></td>
-        <td><span th:text="${file.uploadTime}"></span></td>
+        <td th:id="${file.id}"><span th:text="${file.downloadCount}"></span></td>
+        <td><span th:text="${#dates.format(file.uploadTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
         <td>
             <a th:href="@{/file/download(id=${file.id})}">下载</a>
             <a th:href="@{/file/download(id=${file.id}, openStyle='inline')}">在线打开</a>
